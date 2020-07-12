@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id='AsignacionForm'> 
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:menuitem value=" Inicio " action="Inicio.xhtml"/>
+                <p:menuitem value=" Anterior " action="VentanaAsignarGuardias.xhtml"/>
+            </p:menubar>
+            <p:panel header="Consulta general" style="width: 1000px" id="panel1">
+                <p:messages/>
+                             
+                <p:dataTable id="datatab" value="#{asignaciondeGuardiasDP.listaconsulta}" var="tabla">
+                    
+                    <p:column headerText="Código: " filterBy="#{tabla.codigo}" filterMatchMode="contains">
+                        <h:outputText value="#{tabla.codigo}" />
+                    </p:column>
+
+                    <p:column headerText="Identificación" filterBy="#{tabla.guaidentifiacion}" filterMatchMode="contains">
+                        <h:outputText value="#{tabla.guaidentifiacion}"/>
+                    </p:column>
+                    <p:column headerText="Código Pabellón: " filterBy="#{tabla.codigo}" filterMatchMode="contains">
+                        <h:outputText value="#{tabla.pabcodigo}" />
+                    </p:column>
+                    <p:column headerText="Turno: " filterBy="#{tabla.turno}" filterMatchMode="contains">
+                        <h:outputText value="#{tabla.turno}"  />
+                    </p:column>
+                    <p:column headerText="Fecha Periodo Inicio:" filterBy="#{tabla.perdiodoinicio.toString()}" filterMatchMode="contains">
+                        <h:outputText value="#{tabla.perdiodoinicio.toString()}" />
+                    </p:column>
+                    <p:column headerText="Fecha Periodo Fin:" filterBy="#{tabla.perdiodofin.toString()}" filterMatchMode="contains">
+                        <h:outputText value="#{tabla.perdiodofin.toString()}" />
+                    </p:column>
+                    <p:column headerText="Observaciones: " filterBy="#{tabla.observaciones}" filterMatchMode="contains" >
+                        <h:outputText value="#{tabla.observaciones}"  />
+                    </p:column>  
+
+                </p:dataTable>         
+
+               
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

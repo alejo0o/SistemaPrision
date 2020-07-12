@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>  
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:submenu label="File" >
+                    <p:menuitem value="Quit" url="#" />
+                </p:submenu>
+
+                <p:submenu label="Componentes" >
+                    <p:menuitem value="Centros de atención" action="AsignarCelda.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Procesos" >
+                    <p:menuitem value="Asignar celdas" action="AsignarCelda.xhtml" />
+                    <p:menuitem value="Asignar Guardias" action="VentanaAsignarGuardias.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Consultas">
+                    <p:submenu label="Ajax" icon="pi pi-refresh">
+                        <p:menuitem value="Save" action="#" icon="pi pi-save" update="messages"/>
+                    </p:submenu>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:commandButton type="button" value="Ayuda" />
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </h:body>
+</html>
+

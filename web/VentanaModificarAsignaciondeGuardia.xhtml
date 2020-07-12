@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id='AsignacionForm'>  
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:menuitem value=" Inicio " action="Inicio.xhtml"/>
+                <p:menuitem value=" Anterior " action="VentanaAsignarGuardias.xhtml"/>
+            </p:menubar>
+
+            <p:panel header="Modificar Asignación de celdas" style="width: 600px">
+                
+
+                <h:panelGrid columns="4" id="hpanegrid">
+
+                    <p:outputLabel value="Código: "/>
+                    <p:inputText id="codigo1" value="#{asignaciondeGuardiasDP.codigo}"   label="Codigo" onkeypress="return enteros(event)">
+                    </p:inputText>
+                    
+                    <p:commandButton value="Verificar" id="movieBtn" actionListener="#{asignaciondeGuardiasDP.consultar1()}" update="data"/>
+
+                    <p:overlayPanel id="moviePanel" for="movieBtn" hideEffect="fade" dynamic="true" style="width:1100px">                                     
+
+                        <p:dataTable id="data" var="tabla" value="#{asignaciondeGuardiasDP.vardp}" >
+                            <p:column headerText="Identificación">
+                                <h:outputText value="#{tabla.guaidentifiacion}" />
+                            </p:column>
+                            <p:column headerText="Código Pabellón: ">
+                                <h:outputText value="#{tabla.pabcodigo}" />
+                            </p:column>
+                            <p:column headerText="Turno: ">
+                                <h:outputText value="#{tabla.turno}" />
+                            </p:column>
+                            <p:column headerText="Fecha Periodo Inicio:">
+                                <h:outputText value="#{tabla.perdiodoinicio.toString()}" />
+                            </p:column>
+                            <p:column headerText="Fecha Periodo Fin:">
+                                <h:outputText value="#{tabla.perdiodofin.toString()}" />
+                            </p:column>
+                            <p:column headerText="Observaciones: ">
+                                <h:outputText value="#{tabla.observaciones}" />
+                            </p:column>       
+
+
+
+                        </p:dataTable>
+                    </p:overlayPanel>
+                </h:panelGrid>
+
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Identificación del Guardia: "/>
+                    <p:selectOneMenu id="idguardia" value="#{asignaciondeGuardiasDP.guaidentifiacion}" style="width:150px" >
+                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                        <f:selectItems value="#{guardiasDP.consultar().entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.key}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Código del Pabellón:  "/>
+                    <p:selectOneMenu id="codpabellon" value="#{asignaciondeGuardiasDP.pabcodigo}" style="width:150px" >
+                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                        <f:selectItems value="#{pabellonDP.consultar().entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.key}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Turno:  "/>
+                    <p:selectOneMenu id="turnos" value="#{asignaciondeGuardiasDP.turno}" style="width:150px" >
+                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                        <f:selectItems value="#{datosDP.obtenerTurnos().entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.key}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Periodo de Inicio: "/>
+                    <p:calendar value="#{asignaciondeGuardiasDP.perdiodoinicio}"
+                                id="fechaInicio" locale="de" navigator="true" pattern="dd-MMM-yyyy" mask="true" mode="popup" showOn="button" effect="fold">
+                        <f:convertDateTime type="date"  dateStyle="short" pattern="dd-MMM-yyyy" />
+                    </p:calendar>
+
+
+                    <p:outputLabel value="Periodo Final: "/>
+                    <p:calendar value="#{asignaciondeGuardiasDP.perdiodofin}"
+                                id="fechaSalida" locale="de" navigator="true" pattern="dd-MMM-yyyy" mask="true" mode="popup" showOn="button" effect="fold">
+                        <f:convertDateTime type="date"  dateStyle="short" pattern="dd-MMM-yyyy" />
+                    </p:calendar>
+
+
+                    <p:outputLabel value="Observaciones: "/>
+                    <p:inputText id="observaciones" value="#{asignaciondeGuardiasDP.observaciones}" label="Observaciones" onkeypress="return letras(event)" />
+
+
+                </h:panelGrid>
+                
+                <p:growl id="message" showDetail="true" />
+                <p:commandButton value="Modificar" action="#{asignaciondeGuardiasDP.modificar()}" update="message">
+                    <p:confirm header="Confirmation" message="¿Está seguro?" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"  />
+                </p:confirmDialog> 
+                              
+                
+
+            </p:panel>
+
+            
+        </h:form>
+        <script>
+            function decimales(e)
+            {
+                var keynum = window.event ? window.event.keyCode : e.which;
+                if ((keynum == 8))
+                    return true;
+
+                return 	/[\d\.]/.test(String.fromCharCode(keynum));
+            }
+            function enteros(e)
+            {
+                var keynum = window.event ? window.event.keyCode : e.which;
+                if ((keynum == 8))
+                    return true;
+
+                return /\d/.test(String.fromCharCode(keynum));
+            }
+            function letras(e)
+            {
+                var keynum = window.event ? window.event.keyCode : e.which;
+                if ((keynum == 32))
+                    return true;
+                return 	/[a-z_]/i.test(String.fromCharCode(keynum));
+            }
+        </script>
+    </h:body>
+</html>
+
